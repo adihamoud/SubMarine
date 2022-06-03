@@ -2,9 +2,7 @@
 
 Player User;
 Player AI;
-Board playerBoard;
 Board playerBoardData;
-Board AIBoard;
 Board AIBoardData;
 SubMarine CurrentSub;
 SubMarine Carrier; 
@@ -98,6 +96,8 @@ void SetBoatsOnAIBoard() {
 
 int main()
 {
+    playerBoardData = *new Board("Adi is gay");
+    AIBoardData = *new Board("Adi is gay");
     setupSubMarines();
     addSubMrinesToPlayers();
     playerBoardData.printBoard();

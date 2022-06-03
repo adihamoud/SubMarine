@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "BoardCell.h"
 
 
 class Board
@@ -17,14 +18,10 @@ public:
 	void NewBoard();
 	int setSubMarine(SubMarine _SubmarineName, int _Row, int _Col);
 	int setAISubMarine(SubMarine _SubmarineName, int _Row, int _Col, int _Dir);
-	bool checkIfAdjacent(int _row, int _col);
-
-	/*void addHit();
-	int gethit();*/
 
 private:
 	string BoardName;
-	int DisplayBoard[SIZE][SIZE];
+	BoardCell* DisplayBoard[SIZE][SIZE];
 	//int Hit;
 	////int Miss;
 

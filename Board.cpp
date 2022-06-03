@@ -1,54 +1,85 @@
 #include"Board.h"
 
+
 Board::Board(string _boardname) {
 	BoardName = _boardname;
 
+	for (int Column = 0; Column < SIZE; Column++) {
+		DisplayBoard[0][Column] = NULL;
+	}
+	for (int Row = 0; Row < SIZE; Row++) {
+		DisplayBoard[Row][0] = NULL;
+	}
+
+	for (int Row = 1; Row < SIZE; Row++)
+	{
+		for (int Col = 1; Col < SIZE; Col++)
+		{
+			DisplayBoard[Row][Col] = new BoardCell();
+		}
+	}
 }
 void Board::printBoard()
 {
-	
-	for (int Column = 0; Column < SIZE; Column++) {
+	for (int row = 0; row < SIZE; row++)
+	{
+		for (int col = 0; col < SIZE; col++)
+		{
+			if (DisplayBoard[row][col] == NULL )
+				cout << 9;
+			else if(DisplayBoard[row][col]->isOccupied())
+			{
+				cout << DisplayBoard[row][col]->getSubMarine()->getSubMarineSize();
+			}
+			else {
+				cout << 0;
+			}
+		}
+		cout << endl;
+	}
+	/*for (int Column = 0; Column < SIZE; Column++) {
 		DisplayBoard[0][Column] = Column;
 	}
 	for (int Row = 0; Row < SIZE; Row++) {
 		DisplayBoard[Row][0] = Row;
 	}
-	
+
 	for (int Row = 0; Row < SIZE; Row++)
 	{
-		
-		cout<< "\n";
+
+		cout << "\n";
 		cout << "\t\t\t\t\t";
 
-		
+
 
 		if (Row != 10) {
 			cout << " ";
 		}
-		
+
 
 		for (int Col = 0; Col < SIZE; Col++)
 		{
-			if (Col == 0 && Row == 0 ) {
+			if (Col == 0 && Row == 0) {
 				cout << "";
 			}
 			if (Col == 1 && Row >= 0) {
 				cout << "-";
 			}
-			if (Col>=1)
+			if (Col >= 1)
 			{
-				
-				
+
+
 			}
 			cout << " ";
 			cout << "(" << DisplayBoard[Row][Col] << ")";
-			
+
 
 		}
 		cout << endl;
-	}
-	
+	}*/
+
 }
+
 int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 	int SubMarineSize = _SubmarineName.getSubMarineSize();
 	string SubMarineName = _SubmarineName.getSubMarinename();
@@ -62,11 +93,11 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 		cout << "Please insert a valid Point between 1<10" << endl;
 		return 0;
 	}
-	if (DisplayBoard[_Row][_Col] == 0)
+	if (DisplayBoard[_Row][_Col]->isOccupied() == false)
 	{
 		cout << "please choose Direction(1.up 2.down 3.right 4.left)" << endl;
 		cin >> Dir;
-		if (Dir <=0 ||Dir > 4)
+		if (Dir <= 0 || Dir > 4)
 		{
 			cout << "Please insert a valid Direction 1<4" << endl;
 			return 0;
@@ -99,7 +130,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int rowcheck = (_Row + 1); rowcheck > 0; rowcheck--)
 						{
-							if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -112,7 +143,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int rowcheck = _Row; rowcheck > ((_Row - (SubMarineSize + 1))); rowcheck--)
 						{
-							if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -125,7 +156,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int rowcheck = (_Row + 1); rowcheck > (((_Row + 1) - (SubMarineSize + 2))); rowcheck--)
 						{
-							if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -154,7 +185,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int rowcheck = _Row; rowcheck > 0; rowcheck--)
 						{
-							if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -166,7 +197,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int rowcheck = (_Row + 1); rowcheck > 0; rowcheck--)
 						{
-							if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -178,7 +209,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int rowcheck = _Row; rowcheck > (_Row - (SubMarineSize + 1)); rowcheck--)
 						{
-							if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col - 1] != 0)
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col - 1]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -190,7 +221,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int rowcheck = (_Row + 1); rowcheck > (((_Row + 1) - (SubMarineSize + 2))); rowcheck--)
 						{
-							if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col ] != 0)
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -218,7 +249,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int rowcheck = _Row; rowcheck > ((_Row - (SubMarineSize + 1))); rowcheck--)
 						{
-							if (DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
+							if (DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -230,7 +261,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int rowcheck = _Row; rowcheck > 0; rowcheck--)
 						{
-							if (DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
+							if (DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -242,7 +273,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int rowcheck = (_Row + 1); rowcheck > (((_Row + 1) - (SubMarineSize + 2))); rowcheck--)
 						{
-							if (DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
+							if (DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -254,7 +285,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					break;
 					}
 				}
-				while (DisplayBoard[Row][Col] == 0)
+				while (DisplayBoard[Row][Col]->isOccupied() == false)
 				{
 					Row--;
 					freePlace++;
@@ -262,8 +293,8 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 
 				if (freePlace >= SubMarineSize) {
 					freePlace = SubMarineSize;
-					while (DisplayBoard[_Row][_Col] == 0 && freePlace > 0) {
-						DisplayBoard[_Row][_Col] = SubMarineSize;
+					while (DisplayBoard[_Row][_Col]->isOccupied() == false && freePlace > 0) {
+						DisplayBoard[_Row][_Col]->setSubMarine(&_SubmarineName);
 						freePlace--;
 						_Row--;
 					}
@@ -292,7 +323,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 				if (Col == 1)
 				{
 					int casenum = 0;
-					if (SIZE - _Row == SubMarineSize)
+					if (_Row == SubMarineSize)
 					{
 						casenum = 99;
 					}
@@ -306,7 +337,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int rowcheck = (_Row - 1); rowcheck < SIZE; rowcheck++)
 						{
-							if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -319,7 +350,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int rowcheck = _Row; rowcheck < ((_Row + (SubMarineSize + 1))); rowcheck++)
 						{
-							if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -332,7 +363,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int rowcheck = (_Row - 1); rowcheck < (((_Row - 1) + (SubMarineSize + 2))); rowcheck++)
 						{
-							if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -361,7 +392,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int rowcheck = _Row; rowcheck < (_Row + (SubMarineSize + 1)); rowcheck++)
 						{
-							if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -373,7 +404,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int rowcheck = (_Row - 1); rowcheck < SIZE; rowcheck++)
 						{
-							if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -386,7 +417,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int rowcheck = (_Row - 1); rowcheck < (((_Row - 1) + (SubMarineSize + 2))); rowcheck++)
 						{
-							if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -414,7 +445,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int rowcheck = _Row; rowcheck < ((_Row + (SubMarineSize + 1))); rowcheck++)
 						{
-							if (DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
+							if (DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -426,7 +457,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int rowcheck = (_Row - 1); rowcheck < SIZE; rowcheck++)
 						{
-							if (DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
+							if (DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -438,7 +469,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int rowcheck = (_Row - 1); rowcheck < (((_Row - 1) + (SubMarineSize + 2))); rowcheck++)
 						{
-							if (DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
+							if (DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -450,7 +481,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					break;
 					}
 				}
-				while (DisplayBoard[Row][Col] == 0)
+				while (DisplayBoard[Row][Col]->isOccupied() == false)
 				{
 					Row++;
 					freePlace++;
@@ -458,8 +489,8 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 
 				if (freePlace >= SubMarineSize) {
 					freePlace = SubMarineSize;
-					while (DisplayBoard[_Row][_Col] == 0 && freePlace > 0) {
-						DisplayBoard[_Row][_Col] = SubMarineSize;
+					while (DisplayBoard[_Row][_Col]->isOccupied() == false && freePlace > 0) {
+						DisplayBoard[_Row][_Col]->setSubMarine(&_SubmarineName);
 						freePlace--;
 						_Row++;
 					}
@@ -502,7 +533,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int Colcheck = (_Col - 1); Colcheck < SIZE; Colcheck++)
 						{
-							if (DisplayBoard[(Row + 1)][Colcheck] != 0)
+							if (DisplayBoard[(Row + 1)][Colcheck]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -515,7 +546,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int Colcheck = _Col; Colcheck < ((_Col + (SubMarineSize + 1))); Colcheck++)
 						{
-							if (DisplayBoard[Row + 1][Colcheck] != 0)
+							if (DisplayBoard[Row + 1][Colcheck]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -528,7 +559,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int Colcheck = (_Col - 1); Colcheck < (((_Col - 1) + (SubMarineSize + 2))); Colcheck++)
 						{
-							if (DisplayBoard[Row + 1][Colcheck] != 0)
+							if (DisplayBoard[Row + 1][Colcheck]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -557,7 +588,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int Colcheck = _Col; Colcheck < (_Col + (SubMarineSize + 1)); Colcheck++)
 						{
-							if (DisplayBoard[Row + 1][Colcheck] != 0 || DisplayBoard[Row - 1][Colcheck] != 0)
+							if (DisplayBoard[Row + 1][Colcheck]->isOccupied() || DisplayBoard[Row - 1][Colcheck]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -569,7 +600,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int Colcheck = (_Col - 1); Colcheck < SIZE; Colcheck++)
 						{
-							if (DisplayBoard[Row + 1][Colcheck] != 0 || DisplayBoard[Row - 1][Colcheck] != 0)
+							if (DisplayBoard[Row + 1][Colcheck]->isOccupied() || DisplayBoard[Row - 1][Colcheck]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -581,7 +612,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int Colcheck = (_Col - 1); Colcheck < (((_Col - 1) + (SubMarineSize + 2))); Colcheck++)
 						{
-							if (DisplayBoard[Row + 1][Colcheck] != 0 || DisplayBoard[Row - 1][Colcheck] != 0)
+							if (DisplayBoard[Row + 1][Colcheck]->isOccupied() || DisplayBoard[Row - 1][Colcheck]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -609,7 +640,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int Colcheck = _Col; Colcheck < ((_Col + (SubMarineSize + 1))); Colcheck++)
 						{
-							if (DisplayBoard[Row - 1][Colcheck] != 0 || DisplayBoard[Row][Colcheck] != 0)
+							if (DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -621,7 +652,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int Colcheck = (_Col - 1); Colcheck > SIZE; Colcheck++)
 						{
-							if (DisplayBoard[Row - 1][Colcheck] != 0 || DisplayBoard[Row][Colcheck] != 0)
+							if (DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -633,7 +664,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int Colcheck = (_Col - 1); Colcheck < (((_Col - 1) + (SubMarineSize + 2))); Colcheck++)
 						{
-							if (DisplayBoard[Row - 1][Colcheck] != 0 || DisplayBoard[Row][Colcheck] != 0)
+							if (DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -645,7 +676,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					break;
 					}
 				}
-				while (DisplayBoard[Row][Col] == 0)
+				while (DisplayBoard[Row][Col]->isOccupied() == false)
 				{
 					Col++;
 					freePlace++;
@@ -653,8 +684,8 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 
 				if (freePlace >= SubMarineSize) {
 					freePlace = SubMarineSize;
-					while (DisplayBoard[_Row][_Col] == 0 && freePlace > 0) {
-						DisplayBoard[_Row][_Col] = SubMarineSize;
+					while (DisplayBoard[_Row][_Col]->isOccupied() == false && freePlace > 0) {
+						DisplayBoard[_Row][_Col]->setSubMarine(&_SubmarineName);
 						freePlace--;
 						_Col++;
 					}
@@ -698,7 +729,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int Colcheck = (_Col + 1); Colcheck > SIZE; Colcheck--)
 						{
-							if (DisplayBoard[(Row + 1)][Colcheck] != 0 || DisplayBoard[Row][Colcheck] != 0)
+							if (DisplayBoard[(Row + 1)][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -711,7 +742,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int Colcheck = _Col; Colcheck > ((_Col - (SubMarineSize + 1))); Colcheck--)
 						{
-							if (DisplayBoard[Row + 1][Colcheck] != 0 || DisplayBoard[Row][Colcheck] != 0)
+							if (DisplayBoard[Row + 1][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -724,7 +755,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int Colcheck = (_Col + 1); Colcheck > (((_Col + 1) - (SubMarineSize + 2))); Colcheck--)
 						{
-							if (DisplayBoard[Row + 1][Colcheck] != 0 || DisplayBoard[Row][Colcheck] != 0)
+							if (DisplayBoard[Row + 1][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -753,7 +784,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int Colcheck = _Col; Colcheck > (_Col - (SubMarineSize + 1)); Colcheck--)
 						{
-							if (DisplayBoard[Row + 1][Colcheck] != 0 || DisplayBoard[Row - 1][Colcheck] != 0)
+							if (DisplayBoard[Row + 1][Colcheck]->isOccupied() || DisplayBoard[Row - 1][Colcheck]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -765,7 +796,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int Colcheck = (_Col + 1); Colcheck > 0; Colcheck--)
 						{
-							if (DisplayBoard[Row + 1][Colcheck] != 0 || DisplayBoard[Row - 1][Colcheck] != 0 || DisplayBoard[Row][Colcheck] != 0)
+							if (DisplayBoard[Row + 1][Colcheck]->isOccupied() || DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -777,7 +808,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int Colcheck = (_Col + 1); Colcheck > (((_Col + 1) - (SubMarineSize + 2))); Colcheck--)
 						{
-							if (DisplayBoard[Row + 1][Colcheck] != 0 || DisplayBoard[Row - 1][Colcheck] != 0 || DisplayBoard[Row][Colcheck] != 0)
+							if (DisplayBoard[Row + 1][Colcheck]->isOccupied() || DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -805,7 +836,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int Colcheck = _Col; Colcheck > ((_Col - (SubMarineSize + 1))); Colcheck--)
 						{
-							if (DisplayBoard[Row - 1][Colcheck] != 0 || DisplayBoard[Row][Colcheck] != 0)
+							if (DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -817,10 +848,10 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int Colcheck = (_Col + 1); Colcheck > 0; Colcheck--)
 						{
-							if (DisplayBoard[Row - 1][Colcheck] != 0 || DisplayBoard[Row][Colcheck] != 0)
+							if (DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
 							{
-								cout <<"Cant set Submrines close to each other"<< endl;
-									return 0;
+								cout << "Cant set Submrines close to each other" << endl;
+								return 0;
 							}
 						}
 						break;
@@ -830,7 +861,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					{
 						for (int Colcheck = (_Col - 1); Colcheck < (((_Col - 1) + (SubMarineSize + 2))); Colcheck++)
 						{
-							if (DisplayBoard[Row - 1][Colcheck] != 0 || DisplayBoard[Row + 1][Colcheck] != 0)
+							if (DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[Row + 1][Colcheck]->isOccupied())
 							{
 								cout << "Cant set Submrines close to each other" << endl;
 								return 0;
@@ -842,7 +873,7 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 					break;
 					}
 				}
-				while (DisplayBoard[Row][Col] == 0)
+				while (DisplayBoard[Row][Col]->isOccupied() == false)
 				{
 					Col--;
 					freePlace++;
@@ -850,8 +881,8 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 
 				if (freePlace >= SubMarineSize) {
 					freePlace = SubMarineSize;
-					while (DisplayBoard[_Row][_Col] == 0 && freePlace > 0) {
-						DisplayBoard[_Row][_Col] = SubMarineSize;
+					while (DisplayBoard[_Row][_Col]->isOccupied() == false && freePlace > 0) {
+						DisplayBoard[_Row][_Col]->setSubMarine(&_SubmarineName);
 						freePlace--;
 						_Col--;
 					}
@@ -868,836 +899,836 @@ int  Board::setSubMarine(SubMarine _SubmarineName, int _Row, int _Col) {
 				}
 			}
 		}
-			}
-
 		}
+
+	}
 	else
 	{
 		cout << "submarine already there" << endl;
 	}
+}
+
+
+
+int  Board::setAISubMarine(SubMarine _SubmarineName, int _Row, int _Col, int _Dir) {
+	int SubMarineSize = _SubmarineName.getSubMarineSize();
+	string SubMarineName = _SubmarineName.getSubMarinename();
+	int Dir = _Dir;
+	int freePlace = 0;
+	int Col = _Col;
+	int Row = _Row;
+
+	if (10 < _Col || 1 > _Col || 10 < _Row || 1 > _Row)
+	{
+		return 0;
 	}
-
-
-
-	int  Board::setAISubMarine(SubMarine _SubmarineName, int _Row, int _Col,int _Dir) {
-		int SubMarineSize = _SubmarineName.getSubMarineSize();
-		string SubMarineName = _SubmarineName.getSubMarinename();
-		int Dir= _Dir;
-		int freePlace = 0;
-		int Col = _Col;
-		int Row = _Row;
-
-		if (10 < _Col || 1 > _Col || 10 < _Row || 1 > _Row)
+	if (DisplayBoard[_Row][_Col]->isOccupied() == false)
+	{
+		switch (Dir)
 		{
-			return 0;
-		}
-		if (DisplayBoard[_Row][_Col] == 0)
+		case 1:
 		{
-			switch (Dir)
+			if (SubMarineSize > _Row)
 			{
-			case 1:
+				return 0;
+			}
+			else
 			{
-				if (SubMarineSize > _Row)
+				if (Col == 1)
 				{
-					return 0;
-				}
-				else
-				{
-					if (Col == 1)
+					int casenum = 0;
+					if (_Row == SubMarineSize)
 					{
-						int casenum = 0;
-						if (_Row == SubMarineSize)
+						casenum = 99;
+					}
+					else
+					{
+						casenum = _Row;
+					}
+					switch (casenum)
+					{
+					case 99:
+					{
+						for (int rowcheck = _Row; rowcheck > 0; rowcheck--)
 						{
-							casenum = 99;
-						}
-						else
-						{
-							casenum = _Row;
-						}
-						switch (casenum)
-						{
-						case 99:
-						{
-							for (int rowcheck = _Row; rowcheck > 0; rowcheck--)
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
-								if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
-								{
-					
-									return 0;
-								}
 
+								return 0;
 							}
-							break;
-						}
-						case 10:
-						{
-							for (int rowcheck = _Row; rowcheck > ((_Row - (SubMarineSize + 1))); rowcheck--)
-							{
-								if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-						}
-
-						default:
-						{
-							for (int rowcheck = (_Row + 1); rowcheck > (((_Row + 1) - (SubMarineSize + 2))); rowcheck--)
-							{
-								if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							
 
 						}
 						break;
-						}
 					}
-					if (Col < 10 && Col > 1)
+					case 10:
 					{
-						int casenum = 0;
-						if (_Row == SubMarineSize)
+						for (int rowcheck = _Row; rowcheck > ((_Row - (SubMarineSize + 1))); rowcheck--)
 						{
-							casenum = 99;
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
+							{
+
+								return 0;
+							}
 						}
-						else
+						break;
+					}
+
+					default:
+					{
+						for (int rowcheck = (_Row + 1); rowcheck > (((_Row + 1) - (SubMarineSize + 2))); rowcheck--)
 						{
-							casenum = _Row;
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
+							{
+
+								return 0;
+							}
 						}
-						switch (casenum)
-						{
+
+
+					}
+					break;
+					}
+				}
+				if (Col < 10 && Col > 1)
+				{
+					int casenum = 0;
+					if (_Row == SubMarineSize)
+					{
+						casenum = 99;
+					}
+					else
+					{
+						casenum = _Row;
+					}
+					switch (casenum)
+					{
 						/*case 1:
 						{
 							for (int rowcheck = _Row; rowcheck > 0; rowcheck--)
 							{
-								if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
+								if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 								{
-									
+
 									return 0;
 								}
 							}
 							break;
 						}*/
-						case 99:
-						{
-							for (int rowcheck = (_Row + 1); rowcheck > 0; rowcheck--)
-							{
-								if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-						}
-						case 10:
-						{
-							for (int rowcheck = _Row; rowcheck > (_Row - (SubMarineSize + 1)); rowcheck--)
-							{
-								if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col - 1] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-						}
-						default:
-						{
-							for (int rowcheck = (_Row + 1); rowcheck > (((_Row + 1) - (SubMarineSize + 2))); rowcheck--)
-							{
-								if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-
-						}
-						}
-					}
-					if (Col == 10)
+					case 99:
 					{
-						int casenum = 0;
-						if (_Row == SubMarineSize)
+						for (int rowcheck = (_Row + 1); rowcheck > 0; rowcheck--)
 						{
-							casenum = 99;
-						}
-						else
-						{
-							casenum = _Row;
-						}
-						switch (casenum)
-						{
-						case 10:
-						{
-							for (int rowcheck = _Row; rowcheck > ((_Row - (SubMarineSize + 1))); rowcheck--)
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
-								if (DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-						}
-						case 99:
-						{
-							for (int rowcheck = (_Row + 1); rowcheck > 0; rowcheck--)
-							{
-								if (DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-						}
-						default:
-						{
-							for (int rowcheck = (_Row + 1); rowcheck > (((_Row + 1) - (SubMarineSize + 2))); rowcheck--)
-							{
-								if (DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
 
+								return 0;
+							}
 						}
 						break;
-						}
 					}
-					while (DisplayBoard[Row][Col] == 0)
+					case 10:
 					{
-						Row--;
-						freePlace++;
-					}
+						for (int rowcheck = _Row; rowcheck > (_Row - (SubMarineSize + 1)); rowcheck--)
+						{
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col - 1]->isOccupied())
+							{
 
-					if (freePlace == SubMarineSize) {
-						freePlace = SubMarineSize;
-						while (DisplayBoard[_Row][_Col] == 0 && freePlace > 0) {
-							DisplayBoard[_Row][_Col] = SubMarineSize;
-							freePlace--;
-							_Row--;
+								return 0;
+							}
 						}
-						
-						
-						return 1;
+						break;
 					}
+					default:
+					{
+						for (int rowcheck = (_Row + 1); rowcheck > (((_Row + 1) - (SubMarineSize + 2))); rowcheck--)
+						{
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
+							{
 
-					else {
+								return 0;
+							}
+						}
+						break;
 
-						
-						return 0;
-
+					}
 					}
 				}
-			}
-			case 2:
-			{
-				if ((SIZE - _Row) < SubMarineSize)
+				if (Col == 10)
 				{
-					
+					int casenum = 0;
+					if (_Row == SubMarineSize)
+					{
+						casenum = 99;
+					}
+					else
+					{
+						casenum = _Row;
+					}
+					switch (casenum)
+					{
+					case 10:
+					{
+						for (int rowcheck = _Row; rowcheck > ((_Row - (SubMarineSize + 1))); rowcheck--)
+						{
+							if (DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+					}
+					case 99:
+					{
+						for (int rowcheck = (_Row + 1); rowcheck > 0; rowcheck--)
+						{
+							if (DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+					}
+					default:
+					{
+						for (int rowcheck = (_Row + 1); rowcheck > (((_Row + 1) - (SubMarineSize + 2))); rowcheck--)
+						{
+							if (DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+
+					}
+					break;
+					}
+				}
+				while (DisplayBoard[Row][Col]->isOccupied() == false)
+				{
+					Row--;
+					freePlace++;
+				}
+
+				if (freePlace == SubMarineSize) {
+					freePlace = SubMarineSize;
+					while (DisplayBoard[_Row][_Col]->isOccupied() == false && freePlace > 0) {
+						DisplayBoard[_Row][_Col]->setSubMarine(&_SubmarineName);
+						freePlace--;
+						_Row--;
+					}
+
+
+					return 1;
+				}
+
+				else {
+
+
 					return 0;
-				}
-				else
-				{
-					if (Col == 1)
-					{
-						int casenum = 0;
-						if (SIZE - _Row == SubMarineSize)
-						{
-							casenum = 99;
-						}
-						else
-						{
-							casenum = _Row;
-						}
-						switch (casenum)
-						{
-						case 99:
-						{
-							for (int rowcheck = (_Row - 1); rowcheck < SIZE; rowcheck++)
-							{
-								if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
-								{
-									
-									return 0;
-								}
 
-							}
-							break;
-						}
-						case 1:
-						{
-							for (int rowcheck = _Row; rowcheck < ((_Row + (SubMarineSize + 1))); rowcheck++)
-							{
-								if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-						}
-
-						default:
-						{
-							for (int rowcheck = (_Row - 1); rowcheck < (((_Row - 1) + (SubMarineSize + 2))); rowcheck++)
-							{
-								if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-
-						}
-						break;
-						}
-					}
-					if (Col < 10 && Col > 1)
-					{
-						int casenum = 0;
-						if (_Row == SubMarineSize)
-						{
-							casenum = 99;
-						}
-						else
-						{
-							casenum = _Row;
-						}
-						switch (casenum)
-						{
-						case 1:
-						{
-							for (int rowcheck = _Row; rowcheck < (_Row + (SubMarineSize + 1)); rowcheck++)
-							{
-								if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-						}
-						case 99:
-						{
-							for (int rowcheck = (_Row - 1); rowcheck < SIZE; rowcheck++)
-							{
-								if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-						}
-
-						default:
-						{
-							for (int rowcheck = (_Row - 1); rowcheck < (((_Row - 1) + (SubMarineSize + 2))); rowcheck++)
-							{
-								if (DisplayBoard[rowcheck][Col + 1] != 0 || DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-
-						}
-						}
-					}
-					if (Col == 10)
-					{
-						int casenum = 0;
-						if (_Row == SubMarineSize)
-						{
-							casenum = 99;
-						}
-						else
-						{
-							casenum = _Row;
-						}
-						switch (casenum)
-						{
-						case 1:
-						{
-							for (int rowcheck = _Row; rowcheck < ((_Row + (SubMarineSize + 1))); rowcheck++)
-							{
-								if (DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
-								{
-								
-									return 0;
-								}
-							}
-							break;
-						}
-						case 99:
-						{
-							for (int rowcheck = (_Row - 1); rowcheck < SIZE; rowcheck++)
-							{
-								if (DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-						}
-						default:
-						{
-							for (int rowcheck = (_Row - 1); rowcheck < (((_Row - 1) + (SubMarineSize + 2))); rowcheck++)
-							{
-								if (DisplayBoard[rowcheck][Col - 1] != 0 || DisplayBoard[rowcheck][Col] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-
-						}
-						break;
-						}
-					}
-					while (DisplayBoard[Row][Col] == 0)
-					{
-						Row++;
-						freePlace++;
-					}
-
-					if (freePlace >= SubMarineSize) {
-						freePlace = SubMarineSize;
-						while (DisplayBoard[_Row][_Col] == 0 && freePlace > 0) {
-							DisplayBoard[_Row][_Col] = SubMarineSize;
-							freePlace--;
-							_Row++;
-						}
-						
-						
-						return 1;
-					}
-
-					else {
-
-						
-						return 0;
-
-					}
 				}
 			}
-			case 3:
-			{
-				if ((SIZE - _Col) < SubMarineSize)
-				{
-					
-					return 0;
-				}
-				else
-				{
-					if (Row == 1)
-					{
-						int casenum = 0;
-						if (SIZE == (_Col + SubMarineSize))
-						{
-							casenum = 99;
-						}
-						else
-						{
-							casenum = _Col;
-						}
-						switch (casenum)
-						{
-						case 99:
-						{
-							for (int Colcheck = (_Col - 1); Colcheck < SIZE; Colcheck++)
-							{
-								if (DisplayBoard[(Row + 1)][Colcheck] != 0 || DisplayBoard[(Row)][Colcheck] != 0)
-								{
-									
-									return 0;
-								}
-
-							}
-							break;
-						}
-						case 1:
-						{
-							for (int Colcheck = _Col; Colcheck < ((_Col + (SubMarineSize + 1))); Colcheck++)
-							{
-								if (DisplayBoard[Row + 1][Colcheck] != 0 || DisplayBoard[(Row)][Colcheck] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-						}
-
-						default:
-						{
-							for (int Colcheck = (_Col - 1); Colcheck < (((_Col - 1) + (SubMarineSize + 2))); Colcheck++)
-							{
-								if (DisplayBoard[Row + 1][Colcheck] != 0 || DisplayBoard[(Row)][Colcheck] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-
-						}
-						break;
-						}
-					}
-					if (Row < 10 && Row > 1)
-					{
-						int casenum = 0;
-						if (SIZE == (_Col + SubMarineSize))
-						{
-							casenum = 99;
-						}
-						else
-						{
-							casenum = _Col;
-						}
-						switch (casenum)
-						{
-						case 1:
-						{
-							for (int Colcheck = _Col; Colcheck < (_Col + (SubMarineSize + 1)); Colcheck++)
-							{
-								if (DisplayBoard[Row + 1][Colcheck] != 0 || DisplayBoard[Row - 1][Colcheck] != 0 || DisplayBoard[(Row)][Colcheck] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-						}
-						case 99:
-						{
-							for (int Colcheck = (_Col - 1); Colcheck < SIZE; Colcheck++)
-							{
-								if (DisplayBoard[Row + 1][Colcheck] != 0 || DisplayBoard[Row - 1][Colcheck] != 0 || DisplayBoard[(Row)][Colcheck] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-						}
-						default:
-						{
-							for (int Colcheck = (_Col - 1); Colcheck < (((_Col - 1) + (SubMarineSize + 2))); Colcheck++)
-							{
-								if (DisplayBoard[Row + 1][Colcheck] != 0 || DisplayBoard[Row - 1][Colcheck] != 0 || DisplayBoard[(Row)][Colcheck] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-
-						}
-						}
-					}
-					if (Row == 10)
-					{
-						int casenum = 0;
-						if (SIZE == (_Col + SubMarineSize))
-						{
-							casenum = 99;
-						}
-						else
-						{
-							casenum = _Col;
-						}
-						switch (casenum)
-						{
-						case 1:
-						{
-							for (int Colcheck = _Col; Colcheck < ((_Col + (SubMarineSize + 1))); Colcheck++)
-							{
-								if (DisplayBoard[Row - 1][Colcheck] != 0 || DisplayBoard[Row][Colcheck] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-						}
-						case 99:
-						{
-							for (int Colcheck = (_Col - 1); Colcheck > SIZE; Colcheck++)
-							{
-								if (DisplayBoard[Row - 1][Colcheck] != 0 || DisplayBoard[Row][Colcheck] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-						}
-						default:
-						{
-							for (int Colcheck = (_Col - 1); Colcheck < (((_Col - 1) + (SubMarineSize + 2))); Colcheck++)
-							{
-								if (DisplayBoard[Row - 1][Colcheck] != 0 || DisplayBoard[Row][Colcheck] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-
-						}
-						break;
-						}
-					}
-					while (DisplayBoard[Row][Col] == 0)
-					{
-						Col++;
-						freePlace++;
-					}
-
-					if (freePlace >= SubMarineSize) {
-						freePlace = SubMarineSize;
-						while (DisplayBoard[_Row][_Col] == 0 && freePlace > 0) {
-							DisplayBoard[_Row][_Col] = SubMarineSize;
-							freePlace--;
-							_Col++;
-						}
-						
-						
-						return 1;
-					}
-
-					else {
-
-						
-						return 0;
-
-					}
-				}
-			}
-
-			case 4:
-			{
-				if (Col < SubMarineSize)
-				{
-					
-					return 0;
-				}
-				else
-				{
-					if (Row == 1)
-					{
-						int casenum = 0;
-						if (_Col == SubMarineSize)
-						{
-							casenum = 99;
-						}
-						else
-						{
-							casenum = _Col;
-						}
-						switch (casenum)
-						{
-						case 99:
-						{
-							for (int Colcheck = (_Col + 1); Colcheck > 0; Colcheck--)
-							{
-								if (DisplayBoard[(Row + 1)][Colcheck] != 0 || DisplayBoard[Row][Colcheck] != 0)
-								{
-									
-									return 0;
-								}
-
-							}
-							break;
-						}
-						case 10:
-						{
-							for (int Colcheck = _Col; Colcheck > ((_Col - (SubMarineSize + 1))); Colcheck--)
-							{
-								if (DisplayBoard[Row + 1][Colcheck] != 0 || DisplayBoard[Row][Colcheck] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-						}
-
-						default:
-						{
-							for (int Colcheck = (_Col + 1); Colcheck > (((_Col + 1) - (SubMarineSize + 2))); Colcheck--)
-							{
-								if (DisplayBoard[Row + 1][Colcheck] != 0 || DisplayBoard[Row][Colcheck] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-
-						}
-						break;
-						}
-					}
-					if (Row < 10 && Row > 1)
-					{
-						int casenum = 0;
-						if (_Col == SubMarineSize)
-						{
-							casenum = 99;
-						}
-						else
-						{
-							casenum = _Col;
-						}
-						switch (casenum)
-						{
-						case 10:
-						{
-							for (int Colcheck = _Col; Colcheck > (_Col - (SubMarineSize + 1)); Colcheck--)
-							{
-								if (DisplayBoard[Row + 1][Colcheck] != 0 || DisplayBoard[Row - 1][Colcheck] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-						}
-						case 99:
-						{
-							for (int Colcheck = (_Col + 1); Colcheck > 0; Colcheck--)
-							{
-								if (DisplayBoard[Row + 1][Colcheck] != 0 || DisplayBoard[Row - 1][Colcheck] != 0 || DisplayBoard[Row][Colcheck] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-						}
-						default:
-						{
-							for (int Colcheck = (_Col + 1); Colcheck > (((_Col + 1) - (SubMarineSize + 2))); Colcheck--)
-							{
-								if (DisplayBoard[Row + 1][Colcheck] != 0 || DisplayBoard[Row - 1][Colcheck] != 0 || DisplayBoard[Row][Colcheck] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-
-						}
-						}
-					}
-					if (Row == 10)
-					{
-						int casenum = 0;
-						if (_Col == SubMarineSize)
-						{
-							casenum = 99;
-						}
-						else
-						{
-							casenum = _Col;
-						}
-						switch (casenum)
-						{
-						case 10:
-						{
-							for (int Colcheck = _Col; Colcheck > ((_Col - (SubMarineSize + 1))); Colcheck--)
-							{
-								if (DisplayBoard[Row - 1][Colcheck] != 0 || DisplayBoard[Row][Colcheck] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-						}
-						case 99:
-						{
-							for (int Colcheck = (_Col + 1); Colcheck > 0; Colcheck--)
-							{
-								if (DisplayBoard[Row - 1][Colcheck] != 0 || DisplayBoard[Row][Colcheck] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-
-						}
-						default:
-						{
-							for (int Colcheck = (_Col - 1); Colcheck < (((_Col - 1) + (SubMarineSize + 2))); Colcheck++)
-							{
-								if (DisplayBoard[Row - 1][Colcheck] != 0 || DisplayBoard[Row + 1][Colcheck] != 0)
-								{
-									
-									return 0;
-								}
-							}
-							break;
-
-						}
-						break;
-						}
-					}
-					while (DisplayBoard[Row][Col] == 0)
-					{
-						Col--;
-						freePlace++;
-					}
-
-					if (freePlace >= SubMarineSize) {
-						freePlace = SubMarineSize;
-						while (DisplayBoard[_Row][_Col] == 0 && freePlace > 0) {
-							DisplayBoard[_Row][_Col] = SubMarineSize;
-							freePlace--;
-							_Col--;
-						}
-						
-						
-						return 1;
-					}
-
-					else {
-
-						
-						return 0;
-
-					}
-				}
-			}
-			}
-
 		}
-		else
+		case 2:
 		{
-		return 0;
-			
+			if ((SIZE - _Row) < SubMarineSize)
+			{
+
+				return 0;
+			}
+			else
+			{
+				if (Col == 1)
+				{
+					int casenum = 0;
+					if (SIZE - _Row == SubMarineSize)
+					{
+						casenum = 99;
+					}
+					else
+					{
+						casenum = _Row;
+					}
+					switch (casenum)
+					{
+					case 99:
+					{
+						for (int rowcheck = (_Row - 1); rowcheck < SIZE; rowcheck++)
+						{
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
+							{
+
+								return 0;
+							}
+
+						}
+						break;
+					}
+					case 1:
+					{
+						for (int rowcheck = _Row; rowcheck < ((_Row + (SubMarineSize + 1))); rowcheck++)
+						{
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+					}
+
+					default:
+					{
+						for (int rowcheck = (_Row - 1); rowcheck < (((_Row - 1) + (SubMarineSize + 2))); rowcheck++)
+						{
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+
+					}
+					break;
+					}
+				}
+				if (Col < 10 && Col > 1)
+				{
+					int casenum = 0;
+					if (_Row == SubMarineSize)
+					{
+						casenum = 99;
+					}
+					else
+					{
+						casenum = _Row;
+					}
+					switch (casenum)
+					{
+					case 1:
+					{
+						for (int rowcheck = _Row; rowcheck < (_Row + (SubMarineSize + 1)); rowcheck++)
+						{
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+					}
+					case 99:
+					{
+						for (int rowcheck = (_Row - 1); rowcheck < SIZE; rowcheck++)
+						{
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+					}
+
+					default:
+					{
+						for (int rowcheck = (_Row - 1); rowcheck < (((_Row - 1) + (SubMarineSize + 2))); rowcheck++)
+						{
+							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+
+					}
+					}
+				}
+				if (Col == 10)
+				{
+					int casenum = 0;
+					if (_Row == SubMarineSize)
+					{
+						casenum = 99;
+					}
+					else
+					{
+						casenum = _Row;
+					}
+					switch (casenum)
+					{
+					case 1:
+					{
+						for (int rowcheck = _Row; rowcheck < ((_Row + (SubMarineSize + 1))); rowcheck++)
+						{
+							if (DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+					}
+					case 99:
+					{
+						for (int rowcheck = (_Row - 1); rowcheck < SIZE; rowcheck++)
+						{
+							if (DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+					}
+					default:
+					{
+						for (int rowcheck = (_Row - 1); rowcheck < (((_Row - 1) + (SubMarineSize + 2))); rowcheck++)
+						{
+							if (DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+
+					}
+					break;
+					}
+				}
+				while (DisplayBoard[Row][Col]->isOccupied() == false)
+				{
+					Row++;
+					freePlace++;
+				}
+
+				if (freePlace >= SubMarineSize) {
+					freePlace = SubMarineSize;
+					while (DisplayBoard[_Row][_Col]->isOccupied() == false && freePlace > 0) {
+						DisplayBoard[_Row][_Col]->setSubMarine(&_SubmarineName);
+						freePlace--;
+						_Row++;
+					}
+
+
+					return 1;
+				}
+
+				else {
+
+
+					return 0;
+
+				}
+			}
 		}
-		
+		case 3:
+		{
+			if ((SIZE - _Col) < SubMarineSize)
+			{
+
+				return 0;
+			}
+			else
+			{
+				if (Row == 1)
+				{
+					int casenum = 0;
+					if (SIZE == (_Col + SubMarineSize))
+					{
+						casenum = 99;
+					}
+					else
+					{
+						casenum = _Col;
+					}
+					switch (casenum)
+					{
+					case 99:
+					{
+						for (int Colcheck = (_Col - 1); Colcheck < SIZE; Colcheck++)
+						{
+							if (DisplayBoard[(Row + 1)][Colcheck]->isOccupied() || DisplayBoard[(Row)][Colcheck]->isOccupied())
+							{
+
+								return 0;
+							}
+
+						}
+						break;
+					}
+					case 1:
+					{
+						for (int Colcheck = _Col; Colcheck < ((_Col + (SubMarineSize + 1))); Colcheck++)
+						{
+							if (DisplayBoard[Row + 1][Colcheck]->isOccupied() || DisplayBoard[(Row)][Colcheck]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+					}
+
+					default:
+					{
+						for (int Colcheck = (_Col - 1); Colcheck < (((_Col - 1) + (SubMarineSize + 2))); Colcheck++)
+						{
+							if (DisplayBoard[Row + 1][Colcheck]->isOccupied() || DisplayBoard[(Row)][Colcheck]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+
+					}
+					break;
+					}
+				}
+				if (Row < 10 && Row > 1)
+				{
+					int casenum = 0;
+					if (SIZE == (_Col + SubMarineSize))
+					{
+						casenum = 99;
+					}
+					else
+					{
+						casenum = _Col;
+					}
+					switch (casenum)
+					{
+					case 1:
+					{
+						for (int Colcheck = _Col; Colcheck < (_Col + (SubMarineSize + 1)); Colcheck++)
+						{
+							if (DisplayBoard[Row + 1][Colcheck]->isOccupied() || DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[(Row)][Colcheck]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+					}
+					case 99:
+					{
+						for (int Colcheck = (_Col - 1); Colcheck < SIZE; Colcheck++)
+						{
+							if (DisplayBoard[Row + 1][Colcheck]->isOccupied() || DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[(Row)][Colcheck]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+					}
+					default:
+					{
+						for (int Colcheck = (_Col - 1); Colcheck < (((_Col - 1) + (SubMarineSize + 2))); Colcheck++)
+						{
+							if (DisplayBoard[Row + 1][Colcheck]->isOccupied() || DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[(Row)][Colcheck]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+
+					}
+					}
+				}
+				if (Row == 10)
+				{
+					int casenum = 0;
+					if (SIZE == (_Col + SubMarineSize))
+					{
+						casenum = 99;
+					}
+					else
+					{
+						casenum = _Col;
+					}
+					switch (casenum)
+					{
+					case 1:
+					{
+						for (int Colcheck = _Col; Colcheck < ((_Col + (SubMarineSize + 1))); Colcheck++)
+						{
+							if (DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+					}
+					case 99:
+					{
+						for (int Colcheck = (_Col - 1); Colcheck > SIZE; Colcheck++)
+						{
+							if (DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+					}
+					default:
+					{
+						for (int Colcheck = (_Col - 1); Colcheck < (((_Col - 1) + (SubMarineSize + 2))); Colcheck++)
+						{
+							if (DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+
+					}
+					break;
+					}
+				}
+				while (DisplayBoard[Row][Col]->isOccupied() == false)
+				{
+					Col++;
+					freePlace++;
+				}
+
+				if (freePlace >= SubMarineSize) {
+					freePlace = SubMarineSize;
+					while (DisplayBoard[_Row][_Col]->isOccupied() == false && freePlace > 0) {
+						DisplayBoard[_Row][_Col]->setSubMarine(&_SubmarineName);
+						freePlace--;
+						_Col++;
+					}
+
+
+					return 1;
+				}
+
+				else {
+
+
+					return 0;
+
+				}
+			}
+		}
+
+		case 4:
+		{
+			if (Col < SubMarineSize)
+			{
+
+				return 0;
+			}
+			else
+			{
+				if (Row == 1)
+				{
+					int casenum = 0;
+					if (_Col == SubMarineSize)
+					{
+						casenum = 99;
+					}
+					else
+					{
+						casenum = _Col;
+					}
+					switch (casenum)
+					{
+					case 99:
+					{
+						for (int Colcheck = (_Col + 1); Colcheck > 0; Colcheck--)
+						{
+							if (DisplayBoard[(Row + 1)][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
+							{
+
+								return 0;
+							}
+
+						}
+						break;
+					}
+					case 10:
+					{
+						for (int Colcheck = _Col; Colcheck > ((_Col - (SubMarineSize + 1))); Colcheck--)
+						{
+							if (DisplayBoard[Row + 1][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+					}
+
+					default:
+					{
+						for (int Colcheck = (_Col + 1); Colcheck > (((_Col + 1) - (SubMarineSize + 2))); Colcheck--)
+						{
+							if (DisplayBoard[Row + 1][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+
+					}
+					break;
+					}
+				}
+				if (Row < 10 && Row > 1)
+				{
+					int casenum = 0;
+					if (_Col == SubMarineSize)
+					{
+						casenum = 99;
+					}
+					else
+					{
+						casenum = _Col;
+					}
+					switch (casenum)
+					{
+					case 10:
+					{
+						for (int Colcheck = _Col; Colcheck > (_Col - (SubMarineSize + 1)); Colcheck--)
+						{
+							if (DisplayBoard[Row + 1][Colcheck]->isOccupied() || DisplayBoard[Row - 1][Colcheck]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+					}
+					case 99:
+					{
+						for (int Colcheck = (_Col + 1); Colcheck > 0; Colcheck--)
+						{
+							if (DisplayBoard[Row + 1][Colcheck]->isOccupied() || DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+					}
+					default:
+					{
+						for (int Colcheck = (_Col + 1); Colcheck > (((_Col + 1) - (SubMarineSize + 2))); Colcheck--)
+						{
+							if (DisplayBoard[Row + 1][Colcheck]->isOccupied() || DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+
+					}
+					}
+				}
+				if (Row == 10)
+				{
+					int casenum = 0;
+					if (_Col == SubMarineSize)
+					{
+						casenum = 99;
+					}
+					else
+					{
+						casenum = _Col;
+					}
+					switch (casenum)
+					{
+					case 10:
+					{
+						for (int Colcheck = _Col; Colcheck > ((_Col - (SubMarineSize + 1))); Colcheck--)
+						{
+							if (DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+					}
+					case 99:
+					{
+						for (int Colcheck = (_Col + 1); Colcheck > 0; Colcheck--)
+						{
+							if (DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+
+					}
+					default:
+					{
+						for (int Colcheck = (_Col - 1); Colcheck < (((_Col - 1) + (SubMarineSize + 2))); Colcheck++)
+						{
+							if (DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[Row + 1][Colcheck]->isOccupied())
+							{
+
+								return 0;
+							}
+						}
+						break;
+
+					}
+					break;
+					}
+				}
+				while (DisplayBoard[Row][Col]->isOccupied() == false)
+				{
+					Col--;
+					freePlace++;
+				}
+
+				if (freePlace >= SubMarineSize) {
+					freePlace = SubMarineSize;
+					while (DisplayBoard[_Row][_Col]->isOccupied() == false && freePlace > 0) {
+						DisplayBoard[_Row][_Col]->setSubMarine(&_SubmarineName);
+						freePlace--;
+						_Col--;
+					}
+
+
+					return 1;
+				}
+
+				else {
+
+
+					return 0;
+
+				}
+			}
+		}
+		}
+
+	}
+	else
+	{
+		return 0;
+
 	}
 
-	
+}
+
+
