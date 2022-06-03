@@ -1,11 +1,11 @@
 #include "Board.h"
+
 Player User;
 Player AI;
 Board playerBoard;
 Board playerBoardData;
 Board AIBoard;
 Board AIBoardData;
-
 SubMarine CurrentSub;
 SubMarine Carrier; 
 SubMarine Battleship;
@@ -19,30 +19,32 @@ void setupSubMarines() {
     Battleship.setSubMarineSize(4);
     Cruiser.setSubMarinename("Cruiser");
     Cruiser.setSubMarineSize(3);
-    Submarine.setSubMarinename("Submarine");
-    Submarine.setSubMarineSize(3);
     Destroyer.setSubMarinename("Destroyer");
     Destroyer.setSubMarineSize(2);
 
 }
-void addSubMrinesToUser() {
-    for (int i = 0; i <= 3; i++) {
-        User.addSubMarinetoplayer(Submarine);
-    }
-    for (int i = 0; i <= 2; i++) {
-        User.addSubMarinetoplayer(Cruiser);
-    }
+void addSubMrinesToPlayers() {
+    
     for (int i = 0; i <= 4; i++) {
         User.addSubMarinetoplayer(Destroyer);
+        AI.addSubMarinetoplayer(Destroyer);
     }
         User.addSubMarinetoplayer(Battleship);
         User.addSubMarinetoplayer(Battleship);
         User.addSubMarinetoplayer(Carrier);
+
+       AI.addSubMarinetoplayer(Battleship);
+        AI.addSubMarinetoplayer(Battleship);
+        AI.addSubMarinetoplayer(Carrier);
+        for (int i = 0; i <= 2; i++) {
+            User.addSubMarinetoplayer(Cruiser);
+            AI.addSubMarinetoplayer(Cruiser);
+        }
     
 
 }
 void SetBoatsOnPlayerBoard() {
-    int _Row, _Col;
+    int _Row=0, _Col=0;
     
     while (!User.getPlayerSubMarine().empty())
     {
@@ -61,23 +63,34 @@ void SetBoatsOnPlayerBoard() {
     }
 }
 void SetBoatsOnAIBoard() {
-    int _Row, _Col;
+    int _Row=0, _Col=0;
+    int _Dir=0;
+    srand(time(NULL));
 
     while (!AI.getPlayerSubMarine().empty())
     {
-
         CurrentSub = AI.getPlayerSubMarine().back();
-        cout << "Please insert a Point (row,col) to place" << " " << CurrentSub.getSubMarinename() << " " << "size:" << CurrentSub.getSubMarineSize() << endl;
-        cin >> _Row;
-        cin >> _Col;
+        _Row = rand() % 11 - 1 + 1;
+        _Col = rand() % 11 - 1 + 1;
+        _Dir = rand() % 4 - 1 + 1;
 
 
-        if (AIBoardData.setSubMarine(CurrentSub, _Row, _Col)) {
-            AI.removeSubMarinefromplayer();
+        if (AIBoardData.setAISubMarine(CurrentSub, _Row, _Col,_Dir)!=1) {
+
+           continue ;
+            
         }
+        else
+        {
+            AI.removeSubMarinefromplayer();
+            AIBoardData.printBoard();
+            cout << "----**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-**-*" << endl;
+        }
+       
 
 
     }
+    AIBoardData.printBoard();
 }
 
 
@@ -86,10 +99,12 @@ void SetBoatsOnAIBoard() {
 int main()
 {
     setupSubMarines();
-    addSubMrinesToUser();
+    addSubMrinesToPlayers();
     playerBoardData.printBoard();
     SetBoatsOnPlayerBoard();
-    playerBoardData.printBoard();
+    SetBoatsOnAIBoard();
+    //SetBoatsOnPlayerBoard();
+    //playerBoardData.printBoard();
 
     
 }
