@@ -28,12 +28,6 @@ int SubMarine::getSubHits() {
 	return SubHits;
 }
 bool SubMarine::isSink() {
-	if (SubHits > SubMarineSize) {
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return (SubHits >= SubMarineSize);
 }
 

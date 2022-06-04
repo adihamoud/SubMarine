@@ -31,7 +31,23 @@ bool BoardCell::isOccupied()
 	return (submarine != NULL);
 }
 
-void BoardCell::hitCell()
+bool BoardCell::hitCell()
 {
+	if (hit) {
+		cout << "The cell has been already hit." << endl;
+		return false;
+	}
+
+	if (isOccupied()) {
+		submarine->addSubHit();
+
+		if (submarine->isSink())
+			cout << submarine->getSubMarinename() << " sunk!";
+
+		return true;
+	}
+
 	hit = true;
+
+	return false;
 }

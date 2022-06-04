@@ -9,13 +9,13 @@ Player::~Player()
 {
 }
 
-void Player::addSubMarinetoplayer(SubMarine _SubMarineName) {
+void Player::addSubMarinetoplayer(SubMarine* _SubMarineName) {
 	PlayerSubMarines.push_back(_SubMarineName);
 }
 void Player::removeSubMarinefromplayer() {
 	PlayerSubMarines.pop_back();
 }
-vector <SubMarine> Player::getPlayerSubMarine() {
+vector <SubMarine*> Player::getPlayerSubMarine() {
 	return PlayerSubMarines;
 
 }

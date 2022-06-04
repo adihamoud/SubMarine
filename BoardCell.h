@@ -10,7 +10,7 @@ public:
 	void setSubMarine(SubMarine* _submarine);
 	bool isHit();
 	bool isOccupied();
-	void hitCell();
+	bool hitCell();
 	
 
 

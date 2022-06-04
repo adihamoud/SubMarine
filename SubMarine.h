@@ -26,3 +26,39 @@ private:
 
 };
 
+class Carrier : public SubMarine
+{
+public:
+
+	Carrier() : SubMarine("Carrier", 5) {};
+	~Carrier() {};
+};
+
+class Cruiser : public SubMarine
+{
+public:
+
+	Cruiser() : SubMarine("Cruiser", 3) {};
+	~Cruiser() {};
+};
+
+
+class Destroyer : public SubMarine
+{
+public:
+
+	Destroyer() : SubMarine("Destroyer", 2) {};
+	~Destroyer() {};
+};
+
+class Battleship : public SubMarine
+{
+public:
+
+	Battleship() : SubMarine("Battleship", 4) {};
+	~Battleship() {};
+};
+
+
+
+
