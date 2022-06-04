@@ -4,6 +4,8 @@
 SubMarine::SubMarine(string _SubMarineName, int _SubMarineSize) {
 	SubMarinename = _SubMarineName;
 	SubMarineSize = _SubMarineSize;
+	SubHits = 0;
+	Sink = false;
 
 }
 SubMarine::SubMarine()

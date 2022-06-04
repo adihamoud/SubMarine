@@ -22,7 +22,7 @@ private:
 	string SubMarinename;
 	int SubMarineSize;
 	bool Sink;
-	int SubHits=0;
+	int SubHits;
 
 };
 

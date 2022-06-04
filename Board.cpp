@@ -310,7 +310,7 @@ int  Board::setSubMarine(SubMarine *_SubmarineName, int _Row, int _Col) {
 
 				if (freePlace >= SubMarineSize) {
 					freePlace = SubMarineSize;
-					while (DisplayBoard[_Row][_Col]->isOccupied() == false && freePlace > 0) {
+					while (freePlace > 0 && DisplayBoard[_Row][_Col]->isOccupied() == false) {
 						DisplayBoard[_Row][_Col]->setSubMarine(_SubmarineName);
 						freePlace--;
 						_Row--;
@@ -506,7 +506,7 @@ int  Board::setSubMarine(SubMarine *_SubmarineName, int _Row, int _Col) {
 
 				if (freePlace >= SubMarineSize) {
 					freePlace = SubMarineSize;
-					while (DisplayBoard[_Row][_Col]->isOccupied() == false && freePlace > 0) {
+					while (freePlace > 0 && DisplayBoard[_Row][_Col]->isOccupied() == false ) {
 						DisplayBoard[_Row][_Col]->setSubMarine(_SubmarineName);
 						freePlace--;
 						_Row++;
@@ -701,7 +701,7 @@ int  Board::setSubMarine(SubMarine *_SubmarineName, int _Row, int _Col) {
 
 				if (freePlace >= SubMarineSize) {
 					freePlace = SubMarineSize;
-					while (DisplayBoard[_Row][_Col]->isOccupied() == false && freePlace > 0) {
+					while (freePlace > 0 && DisplayBoard[_Row][_Col]->isOccupied() == false ) {
 						DisplayBoard[_Row][_Col]->setSubMarine(_SubmarineName);
 						freePlace--;
 						_Col++;
@@ -898,7 +898,7 @@ int  Board::setSubMarine(SubMarine *_SubmarineName, int _Row, int _Col) {
 
 				if (freePlace >= SubMarineSize) {
 					freePlace = SubMarineSize;
-					while (DisplayBoard[_Row][_Col]->isOccupied() == false && freePlace > 0) {
+					while (freePlace > 0 && DisplayBoard[_Row][_Col]->isOccupied() == false) {
 						DisplayBoard[_Row][_Col]->setSubMarine(_SubmarineName);
 						freePlace--;
 						_Col--;
@@ -1131,7 +1131,7 @@ int  Board::setAISubMarine(SubMarine *_SubmarineName, int _Row, int _Col, int _D
 
 				if (freePlace == SubMarineSize) {
 					freePlace = SubMarineSize;
-					while (DisplayBoard[_Row][_Col]->isOccupied() == false && freePlace > 0) {
+					while (freePlace > 0 && DisplayBoard[_Row][_Col]->isOccupied() == false) {
 						DisplayBoard[_Row][_Col]->setSubMarine(_SubmarineName);
 						freePlace--;
 						_Row--;
@@ -1327,7 +1327,7 @@ int  Board::setAISubMarine(SubMarine *_SubmarineName, int _Row, int _Col, int _D
 
 				if (freePlace >= SubMarineSize) {
 					freePlace = SubMarineSize;
-					while (DisplayBoard[_Row][_Col]->isOccupied() == false && freePlace > 0) {
+					while (freePlace > 0 && DisplayBoard[_Row][_Col]->isOccupied() == false) {
 						DisplayBoard[_Row][_Col]->setSubMarine(_SubmarineName);
 						freePlace--;
 						_Row++;
@@ -1522,7 +1522,7 @@ int  Board::setAISubMarine(SubMarine *_SubmarineName, int _Row, int _Col, int _D
 
 				if (freePlace >= SubMarineSize) {
 					freePlace = SubMarineSize;
-					while (DisplayBoard[_Row][_Col]->isOccupied() == false && freePlace > 0) {
+					while (freePlace > 0 && DisplayBoard[_Row][_Col]->isOccupied() == false) {
 						DisplayBoard[_Row][_Col]->setSubMarine(_SubmarineName);
 						freePlace--;
 						_Col++;
@@ -1719,7 +1719,7 @@ int  Board::setAISubMarine(SubMarine *_SubmarineName, int _Row, int _Col, int _D
 
 				if (freePlace >= SubMarineSize) {
 					freePlace = SubMarineSize;
-					while (DisplayBoard[_Row][_Col]->isOccupied() == false && freePlace > 0) {
+					while (freePlace > 0 && DisplayBoard[_Row][_Col]->isOccupied() == false) {
 						DisplayBoard[_Row][_Col]->setSubMarine(_SubmarineName);
 						freePlace--;
 						_Col--;

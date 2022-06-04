@@ -3,29 +3,21 @@
 
 Player User;
 Player AI;
-Board playerBoardData;
-Board AIBoardData;
 SubMarine* CurrentSub;
-//SubMarine Carrier;
-//SubMarine Battleship;
-//SubMarine Destroyer;
-//SubMarine Submarine;
-//SubMarine Cruiser;
-//void setupSubMarines() {
-//	Carrier Player1 = *new Carrier();
-//	for (int i = 0; i <= 4; i++) {
-//		User.addSubMarinetoplayer(new Destroyer());
-//		AI.addSubMarinetoplayer(new Destroyer());
-//	}
-//	
-//
-//}
-void addSubMrinesToPlayers() {
 
+Board AIBoardData = *new Board("AI Board");
+Board playerBoardData = *new Board("Player Board");
+void addSubMrinesToPlayers() {
+	
 	for (int i = 0; i <= 4; i++) {
 		User.addSubMarinetoplayer(new Destroyer());
 		AI.addSubMarinetoplayer(new Destroyer());
 	}
+	for (int i = 0; i <= 2; i++) {
+		User.addSubMarinetoplayer(new Cruiser());
+		AI.addSubMarinetoplayer(new Cruiser());
+	}
+
 	User.addSubMarinetoplayer(new Battleship());
 	User.addSubMarinetoplayer(new Battleship());
 	User.addSubMarinetoplayer(new Carrier());
@@ -33,14 +25,11 @@ void addSubMrinesToPlayers() {
 	AI.addSubMarinetoplayer(new Battleship());
 	AI.addSubMarinetoplayer(new Battleship());
 	AI.addSubMarinetoplayer(new Carrier());
-	for (int i = 0; i <= 2; i++) {
-		User.addSubMarinetoplayer(new Cruiser());
-		AI.addSubMarinetoplayer(new Cruiser());
-	}
-
+	
 
 }
 void SetBoatsOnPlayerBoard() {
+	
 	int _Row = 0, _Col = 0;
 
 	while (!User.getPlayerSubMarine().empty())
@@ -60,6 +49,8 @@ void SetBoatsOnPlayerBoard() {
 	}
 }
 void SetBoatsOnAIBoard() {
+	
+	
 	int _Row = 0, _Col = 0;
 	int _Dir = 0;
 	srand(time(NULL));
@@ -67,9 +58,10 @@ void SetBoatsOnAIBoard() {
 	while (!AI.getPlayerSubMarine().empty())
 	{
 		CurrentSub = AI.getPlayerSubMarine().back();
-		_Row = rand() % 11 - 1 + 1;
-		_Col = rand() % 11 - 1 + 1;
-		_Dir = rand() % 4 - 1 + 1;
+		_Row = rand() % 10 + 1 ;
+		_Col = rand() % 10 + 1 ;
+		_Dir = rand() % 4 + 1;
+
 
 
 		if (AIBoardData.setAISubMarine(CurrentSub, _Row, _Col, _Dir) != 1) {
@@ -89,21 +81,26 @@ void SetBoatsOnAIBoard() {
 	}
 	AIBoardData.printBoard();
 }
-
+void playerattack() {
+	int Row = 0;
+	int Col = 0;
+	cout << "Try to hit The Enemey!" << endl;
+	AIBoardData.hit(Row, Col);
+}
 
 
 
 int main()
 {
-	playerBoardData = *new Board("Player Board");
-	AIBoardData = *new Board("AI Board");
+	
 	//setupSubMarines();
 	addSubMrinesToPlayers();
-	playerBoardData.printBoard();
-	SetBoatsOnPlayerBoard();
+	//playerBoardData.printBoard();
+	//SetBoatsOnPlayerBoard();
 	SetBoatsOnAIBoard();
 	//SetBoatsOnPlayerBoard();
 	//playerBoardData.printBoard();
+	playerattack();
 
 
 }
