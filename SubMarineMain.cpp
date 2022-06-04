@@ -85,6 +85,8 @@ void playerattack() {
 	int Row = 0;
 	int Col = 0;
 	cout << "Try to hit The Enemey!" << endl;
+	cin >> Row;
+	cin >> Col;
 	AIBoardData.hit(Row, Col);
 }
 

@@ -1253,7 +1253,7 @@ int  Board::setAISubMarine(SubMarine *_SubmarineName, int _Row, int _Col, int _D
 
 					default:
 					{
-						for (int rowcheck = (_Row - 1); rowcheck < (((_Row - 1) + (SubMarineSize + 2))); rowcheck++)
+						for (int rowcheck = (_Row - 1); rowcheck < (((_Row - 1) + (SubMarineSize + 1))); rowcheck++)
 						{
 							if (DisplayBoard[rowcheck][Col + 1]->isOccupied() || DisplayBoard[rowcheck][Col - 1]->isOccupied() || DisplayBoard[rowcheck][Col]->isOccupied())
 							{
@@ -1697,9 +1697,9 @@ int  Board::setAISubMarine(SubMarine *_SubmarineName, int _Row, int _Col, int _D
 					}
 					default:
 					{
-						for (int Colcheck = (_Col - 1); Colcheck < (((_Col - 1) + (SubMarineSize + 2))); Colcheck++)
+						for (int Colcheck = (_Col + 1); Colcheck < (((_Col ) + (SubMarineSize + 1))); Colcheck--)
 						{
-							if (DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[Row + 1][Colcheck]->isOccupied())
+							if (DisplayBoard[Row - 1][Colcheck]->isOccupied() || DisplayBoard[Row][Colcheck]->isOccupied())
 							{
 
 								return 0;
