@@ -7,6 +7,24 @@ SubMarine* CurrentSub;
 
 Board AIBoardData = *new Board("AI Board");
 Board playerBoardData = *new Board("Player Board");
+int tryAttackPotentialTarget(int** _BoardStaus)
+{
+	for (int Row = 0; Row < SIZE-1; Row++)
+	{
+		for (int Col = 0; Col < SIZE-1; Col++)
+		{
+			if (_BoardStaus[Row][Col]>1)
+			{
+				playerBoardData.hit(Row+1, Col+1);
+				return true;
+
+			}
+
+		}
+	}
+	return false;
+
+}
 void addSubMrinesToPlayers() {
 	
 	for (int i = 0; i <= 4; i++) {
@@ -80,16 +98,17 @@ void SetBoatsOnAIBoard() {
 		else
 		{
 			AI.removeSubMarinefromplayer();
-			AIBoardData.printBoard();
-			cout << "----**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-**-*" << endl;
+			/*AIBoardData.printBoard();
+			cout << "----**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-**-*" << endl;*/
 		}
 
 
 
 	}
-	AIBoardData.printBoard();
+	//AIBoardData.printBoard();
 }
 void playerattack() {
+	AIBoardData.printBoardForPlayers();
 	int Row = 0;
 	int Col = 0;
 	cout << "Try to hit The Enemey!" << endl;
@@ -101,15 +120,21 @@ void playerattack() {
 }
 void AIattack()
 {
-
-	int Row = 0;
-	int Col = 0;
-	cout << "Try to hit The Enemey!" << endl;
-	cin >> Row;
-	cin >> Col;
-
-	playerBoardData.hit(Row, Col);
-	playerBoardData.printBoardForPlayers();
+	if (tryAttackPotentialTarget(playerBoardData.BoardStatus()))
+	{
+		playerBoardData.printBoardForPlayers();
+	}
+	else
+	{
+		
+		int Row = 0;
+		int Col = 0;
+		Row = rand() % 10 + 1;
+		Col = rand() % 10 + 1;
+		playerBoardData.hit(Row, Col);
+		playerBoardData.printBoardForPlayers();
+	}
+	
 
 
 }
@@ -117,9 +142,11 @@ int main()
 {
 	addSubMrinesToPlayers();
 	SetBoatsOnAIBoard();
+	SetBoatsOnPlayerBoard();
 	while (!(playerBoardData.gameEnded() || AIBoardData.gameEnded()))
 	{
 		playerattack();
+		AIattack();
 		
 
 	}

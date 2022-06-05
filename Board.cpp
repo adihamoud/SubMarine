@@ -62,7 +62,7 @@ int** Board::BoardStatus()
 	int** x = new int* [SIZE - 1];
 	for (int row = 1; row < SIZE; row++)
 	{
-		x[row] = new int[SIZE - 1];
+		x[row-1] = new int[SIZE - 1];
 
 		for (int Col = 1; Col < SIZE; Col++)
 		{
@@ -72,7 +72,11 @@ int** Board::BoardStatus()
 				{
 					x[row - 1][Col - 1] = DisplayBoard[row][Col]->getSubMarine()->getSubMarineSize();
 				}
-				x[row - 1][Col - 1] = 0;
+				else
+				{
+					x[row - 1][Col - 1] = 0;
+				}
+				
 			}
 			else if (DisplayBoard[row][Col]->isHit() && (!DisplayBoard[row][Col]->isOccupied()))
 			{
