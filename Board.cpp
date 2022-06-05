@@ -1,10 +1,9 @@
 #include"Board.h"
 #include"BoardCell.h"
 
-
 Board::Board(string _boardname) {
 	BoardName = _boardname;
-	numofhits= 0;
+	numofhits = 0;
 	for (int Column = 0; Column < SIZE; Column++) {
 		DisplayBoard[0][Column] = NULL;
 	}
@@ -54,47 +53,40 @@ void Board::printBoard()
 		cout << endl;
 		cout << endl;
 	}
-	/*for (int Column = 0; Column < SIZE; Column++) {
-		DisplayBoard[0][Column] = Column;
-	}
-	for (int Row = 0; Row < SIZE; Row++) {
-		DisplayBoard[Row][0] = Row;
-	}
 
-	for (int Row = 0; Row < SIZE; Row++)
+
+}
+
+int** Board::BoardStatus()
+{
+	int** x = new int* [SIZE - 1];
+	for (int row = 1; row < SIZE; row++)
 	{
+		x[row] = new int[SIZE - 1];
 
-		cout << "\n";
-		cout << "\t\t\t\t\t";
-
-
-
-		if (Row != 10) {
-			cout << " ";
-		}
-
-
-		for (int Col = 0; Col < SIZE; Col++)
+		for (int Col = 1; Col < SIZE; Col++)
 		{
-			if (Col == 0 && Row == 0) {
-				cout << "";
-			}
-			if (Col == 1 && Row >= 0) {
-				cout << "-";
-			}
-			if (Col >= 1)
+			if (!DisplayBoard[row][Col]->isHit())
 			{
-
+				if (DisplayBoard[row][Col]->isOccupied() && DisplayBoard[row][Col]->getSubMarine()->getSubHits() > 0)
+				{
+					x[row - 1][Col - 1] = DisplayBoard[row][Col]->getSubMarine()->getSubMarineSize();
+				}
+				x[row - 1][Col - 1] = 0;
+			}
+			else if (DisplayBoard[row][Col]->isHit() && (!DisplayBoard[row][Col]->isOccupied()))
+			{
+				x[row - 1][Col - 1] = -1;
 
 			}
-			cout << " ";
-			cout << "(" << DisplayBoard[Row][Col] << ")";
-
+			else if (DisplayBoard[row][Col]->isHit() && DisplayBoard[row][Col]->isOccupied())
+			{
+				x[row - 1][Col - 1] = (-DisplayBoard[row][Col]->getSubMarine()->getSubMarineSize());
+			}
 
 		}
-		cout << endl;
-	}*/
-
+	}
+	return x;
 }
 
 void Board::printBoardForPlayers()
@@ -149,46 +141,7 @@ void Board::printBoardForPlayers()
 		cout << endl;
 		cout << endl;
 	}
-	/*for (int Column = 0; Column < SIZE; Column++) {
-		DisplayBoard[0][Column] = Column;
-	}
-	for (int Row = 0; Row < SIZE; Row++) {
-		DisplayBoard[Row][0] = Row;
-	}
 
-	for (int Row = 0; Row < SIZE; Row++)
-	{
-
-		cout << "\n";
-		cout << "\t\t\t\t\t";
-
-
-
-		if (Row != 10) {
-			cout << " ";
-		}
-
-
-		for (int Col = 0; Col < SIZE; Col++)
-		{
-			if (Col == 0 && Row == 0) {
-				cout << "";
-			}
-			if (Col == 1 && Row >= 0) {
-				cout << "-";
-			}
-			if (Col >= 1)
-			{
-
-
-			}
-			cout << " ";
-			cout << "(" << DisplayBoard[Row][Col] << ")";
-
-
-		}
-		cout << endl;
-	}*/
 
 }
 
@@ -204,9 +157,9 @@ bool Board::hit(int _Row, int _Col)
 		numofhits++;
 		return true;
 	}
-	else 
-	 return 0;
-	
+	else
+		return 0;
+
 }
 
 bool Board::checkSunkBoundaries(int Row, int Col)
@@ -245,7 +198,7 @@ bool Board::checkOccupiedBoundaries(int Row, int Col)
 bool Board::gameEnded()
 {
 	return(numofhits == 32);
-	
+
 }
 int Board::setSubMarine(SubMarine* _SubmarineName, int _Row, int _Col, int _Dir)
 {
@@ -270,7 +223,7 @@ int Board::setSubMarine(SubMarine* _SubmarineName, int _Row, int _Col, int _Dir)
 		{
 			if (!checkOccupiedBoundaries(Row - i, Col))
 			{
-				
+
 				cout << "cant set submarine here" << endl;
 				return 0;
 			}
@@ -341,7 +294,7 @@ int Board::setSubMarine(SubMarine* _SubmarineName, int _Row, int _Col, int _Dir)
 		printBoard();
 		return 1;
 	}
-		break;
+	break;
 
 
 	}

@@ -97,11 +97,22 @@ void playerattack() {
 	cin >> Col;
 
 	AIBoardData.hit(Row, Col);
+	AIBoardData.printBoardForPlayers();
 }
+void AIattack()
+{
+
+	int Row = 0;
+	int Col = 0;
+	cout << "Try to hit The Enemey!" << endl;
+	cin >> Row;
+	cin >> Col;
+
+	playerBoardData.hit(Row, Col);
+	playerBoardData.printBoardForPlayers();
 
 
-
-
+}
 int main()
 {
 	addSubMrinesToPlayers();
@@ -109,23 +120,10 @@ int main()
 	while (!(playerBoardData.gameEnded() || AIBoardData.gameEnded()))
 	{
 		playerattack();
-		AIBoardData.printBoardForPlayers();
+		
 
 	}
 	
-	
-	//playerBoardData.printBoard();
-	//SetBoatsOnPlayerBoard();
-	
-	//SetBoatsOnPlayerBoard();
-	//playerBoardData.printBoard();
-	//while (y<1)
-	//{
-	//	
-	//	
-	//}
-	/*playerattack();
-	AIBoardData.printBoardForPlayers();*/
 
 
 }

@@ -15,6 +15,7 @@ public:
 	Board(){};
 	Board(string _boardname);
 	void printBoard();
+	int** BoardStatus();
 	void printBoardForPlayers();
 	void NewBoard();
 	bool hit(int _Row, int _Col);
