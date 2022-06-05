@@ -25,10 +25,9 @@ public:
 	int setSubMarine(SubMarine* _SubmarineName, int _Row, int _Col, int Dir);
 	bool isthiscellOccupied(int Row, int Col);
 	bool checkOccupiedBoundaries(int Row, int Col);
-	
-	
-
+	bool hitsum();
 private:
+	int numofhits;
 	string BoardName;
 	BoardCell* DisplayBoard[SIZE][SIZE];
 	//int Hit;

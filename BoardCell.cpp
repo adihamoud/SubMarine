@@ -5,6 +5,7 @@ BoardCell::BoardCell()
 {
 	hit = false;
 	submarine = NULL;
+	
 }
 
 BoardCell::~BoardCell()
