@@ -30,7 +30,7 @@ void addSubMrinesToPlayers() {
 }
 void SetBoatsOnPlayerBoard() {
 	
-	int _Row = 0, _Col = 0;
+	int _Row = 0, _Col = 0, _Dir=0;
 
 	while (!User.getPlayerSubMarine().empty())
 	{
@@ -39,9 +39,17 @@ void SetBoatsOnPlayerBoard() {
 		cout << "Please insert a Point (row,col) to place" << " " << CurrentSub->getSubMarinename() << " " << "size:" << CurrentSub->getSubMarineSize() << endl;
 		cin >> _Row;
 		cin >> _Col;
+		cout << "please choose Direction(1.up 2.down 3.right 4.left)" << endl;
+		cin >> _Dir;
+
+		if (_Dir <= 0 || _Dir > 4)
+		{
+			cout << "Please insert a valid Direction 1<4" << endl;
+			return ;
+		}
 
 
-		if (playerBoardData.setSubMarine(CurrentSub, _Row, _Col)) {
+		if (playerBoardData.setSubMarine(CurrentSub, _Row, _Col,_Dir)) {
 			User.removeSubMarinefromplayer();
 		}
 
@@ -64,7 +72,7 @@ void SetBoatsOnAIBoard() {
 
 
 
-		if (AIBoardData.setAISubMarine(CurrentSub, _Row, _Col, _Dir) != 1) {
+		if (AIBoardData.setSubMarine(CurrentSub, _Row, _Col, _Dir) != 1) {
 
 			continue;
 
@@ -87,27 +95,35 @@ void playerattack() {
 	cout << "Try to hit The Enemey!" << endl;
 	cin >> Row;
 	cin >> Col;
+
 	AIBoardData.hit(Row, Col);
 }
 
 
 
+
 int main()
 {
-	int y=0;
-	
-	//setupSubMarines();
 	addSubMrinesToPlayers();
-	//playerBoardData.printBoard();
-	//SetBoatsOnPlayerBoard();
 	SetBoatsOnAIBoard();
-	//SetBoatsOnPlayerBoard();
-	//playerBoardData.printBoard();
-	while (y<100)
+	while (!(playerBoardData.gameEnded() || AIBoardData.gameEnded()))
 	{
 		playerattack();
 		AIBoardData.printBoardForPlayers();
+
 	}
+	
+	
+	//playerBoardData.printBoard();
+	//SetBoatsOnPlayerBoard();
+	
+	//SetBoatsOnPlayerBoard();
+	//playerBoardData.printBoard();
+	//while (y<1)
+	//{
+	//	
+	//	
+	//}
 	/*playerattack();
 	AIBoardData.printBoardForPlayers();*/
 

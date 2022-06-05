@@ -242,7 +242,7 @@ bool Board::checkOccupiedBoundaries(int Row, int Col)
 		&& isthiscellOccupied(Row, Col + 1) && isthiscellOccupied(Row - 1, Col - 1)
 		&& isthiscellOccupied(Row - 1, Col) && isthiscellOccupied(Row - 1, Col + 1);
 }
-bool Board::hitsum()
+bool Board::gameEnded()
 {
 	return(numofhits == 32);
 	
