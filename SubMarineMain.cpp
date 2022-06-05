@@ -94,6 +94,7 @@ void playerattack() {
 
 int main()
 {
+	int y=0;
 	
 	//setupSubMarines();
 	addSubMrinesToPlayers();
@@ -102,7 +103,13 @@ int main()
 	SetBoatsOnAIBoard();
 	//SetBoatsOnPlayerBoard();
 	//playerBoardData.printBoard();
-	playerattack();
+	while (y<100)
+	{
+		playerattack();
+		AIBoardData.printBoardForPlayers();
+	}
+	/*playerattack();
+	AIBoardData.printBoardForPlayers();*/
 
 
 }

@@ -15,10 +15,14 @@ public:
 	Board(){};
 	Board(string _boardname);
 	void printBoard();
+	void printBoardForPlayers();
 	void NewBoard();
 	int setSubMarine(SubMarine *_SubmarineName, int _Row, int _Col);
 	int setAISubMarine(SubMarine *_SubmarineName, int _Row, int _Col, int _Dir);
 	bool hit(int _Row, int _Col);
+	bool checkSunkBoundaries(int Row, int Col);
+	bool isthiscellSink(int Row,int Col);
+	
 
 private:
 	string BoardName;
