@@ -1,9 +1,16 @@
 #include "Board.h"
+const string red("\033[0;31m");
+const string green("\033[1;32m");
+const string yellow("\033[1;33m");
+const string cyan("\033[0;36m");
+const string magenta("\033[0;35m");
+const string reset("\033[0m");
 
-
+string color= "Color FA";
 Player User;
 Player AI;
 SubMarine* CurrentSub;
+
 
 Board AIBoardData = *new Board("AI Board");
 Board playerBoardData = *new Board("Player Board");
@@ -54,7 +61,7 @@ void SetBoatsOnPlayerBoard() {
 	{
 
 		CurrentSub = User.getPlayerSubMarine().back();
-		cout << "Please insert a Point (row,col) to place" << " " << CurrentSub->getSubMarinename() << " " << "size:" << CurrentSub->getSubMarineSize() << endl;
+		cout << "Please insert a Point (row,col) to place" << " " << CurrentSub->getSubMarinename() << " " << "size:" << CurrentSub->getSubMarineSize() <<  endl;
 		cin >> _Row;
 		cin >> _Col;
 		cout << "please choose Direction(1.up 2.down 3.right 4.left)" << endl;
@@ -76,7 +83,7 @@ void SetBoatsOnPlayerBoard() {
 }
 void SetBoatsOnAIBoard() {
 	
-	
+	int TryCount = 0;
 	int _Row = 0, _Col = 0;
 	int _Dir = 0;
 	srand(time(NULL));
@@ -90,16 +97,25 @@ void SetBoatsOnAIBoard() {
 
 
 
-		if (AIBoardData.setSubMarine(CurrentSub, _Row, _Col, _Dir) != 1) {
-
+		if (AIBoardData.setAISubMarine(CurrentSub, _Row, _Col, _Dir) != 1) {
+			TryCount++;
 			continue;
 
 		}
 		else
 		{
 			AI.removeSubMarinefromplayer();
+			system("cls");
 			/*AIBoardData.printBoard();
 			cout << "----**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--*-*-*-*-*-*-*-*-**-*" << endl;*/
+		}
+		if (TryCount > 100)
+		{
+			SetBoatsOnAIBoard();
+		}
+		else
+		{
+			continue;
 		}
 
 
@@ -108,7 +124,7 @@ void SetBoatsOnAIBoard() {
 	//AIBoardData.printBoard();
 }
 void playerattack() {
-	AIBoardData.printBoardForPlayers();
+	AIBoardData.printBoardForPlayer();
 	int Row = 0;
 	int Col = 0;
 	cout << "Try to hit The Enemey!" << endl;
@@ -116,13 +132,18 @@ void playerattack() {
 	cin >> Col;
 
 	AIBoardData.hit(Row, Col);
-	AIBoardData.printBoardForPlayers();
+	system("cls");
+	AIBoardData.printBoardForPlayer();
+	system("pause");
+	system("cls");
 }
 void AIattack()
 {
+	
 	if (tryAttackPotentialTarget(playerBoardData.BoardStatus()))
 	{
-		playerBoardData.printBoardForPlayers();
+		playerBoardData.printBoardForAI();
+		
 	}
 	else
 	{
@@ -132,23 +153,28 @@ void AIattack()
 		Row = rand() % 10 + 1;
 		Col = rand() % 10 + 1;
 		playerBoardData.hit(Row, Col);
-		playerBoardData.printBoardForPlayers();
+		system("cls");
+		playerBoardData.printBoardForAI();
 	}
 	
-
-
+	system("pause");
+	//Sleep(5000);
+	system("cls");
 }
+
 int main()
 {
+	//system("color");
 	addSubMrinesToPlayers();
+	//playerBoardData.printBoard();
+	//SetBoatsOnPlayerBoard();
 	SetBoatsOnAIBoard();
-	SetBoatsOnPlayerBoard();
 	while (!(playerBoardData.gameEnded() || AIBoardData.gameEnded()))
 	{
 		playerattack();
 		AIattack();
 		
-
+		
 	}
 	
 
