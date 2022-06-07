@@ -15,6 +15,10 @@ void Player::addSubMarinetoplayer(SubMarine* _SubMarineName) {
 void Player::removeSubMarinefromplayer() {
 	PlayerSubMarines.pop_back();
 }
+void Player::ClearVictor()
+{
+	PlayerSubMarines.clear();
+}
 vector <SubMarine*> Player::getPlayerSubMarine() {
 	return PlayerSubMarines;
 

@@ -9,6 +9,7 @@ public:
 	void addSubMarinetoplayer(SubMarine* _SubMarineName);
 	vector <SubMarine*> getPlayerSubMarine();
 	void removeSubMarinefromplayer();
+	void ClearVictor();
 	Player();
 	~Player();
 
